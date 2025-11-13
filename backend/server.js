@@ -103,12 +103,27 @@ const testDatabaseConnection = async () => {
   const db = require('./src/config/database')
   try {
     await db.query('SELECT NOW()')
+    console.log('✅ Database connection successful')
     logger.info('Database connection successful')
     return true
   } catch (error) {
+    console.error('❌ Database connection failed!')
+    console.error('Error:', error.message)
+    console.error('Code:', error.code)
+
+    if (error.code === 'ECONNREFUSED') {
+      console.error('\n🔧 PostgreSQL is not running!')
+      console.error('Please start PostgreSQL:')
+      console.error('  - Windows: Start "PostgreSQL" service')
+      console.error('  - Mac: brew services start postgresql')
+      console.error('  - Linux: sudo systemctl start postgresql')
+    }
+
+    console.error('\n📝 Current DATABASE_URL:', process.env.DATABASE_URL || 'NOT SET')
+    console.error('\nExpected format:')
+    console.error('  postgresql://username:password@localhost:5432/database_name')
+
     logger.error('Database connection failed:', error.message)
-    logger.error('Please check your DATABASE_URL in .env file')
-    logger.error('Current DATABASE_URL:', process.env.DATABASE_URL ? 'Set (hidden)' : 'Not set')
     return false
   }
 }
