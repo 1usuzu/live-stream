@@ -75,19 +75,39 @@ CLIENT_URL=https://livestream-frontend.onrender.com
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-### 3.3. Deploy & Run Migration
+### 3.3. Deploy
 
-1. Click **Create Web Service**
-2. Đợi deploy xong (có thể failed - bình thường)
-3. Vào **Shell** tab
-4. Chạy:
-   ```bash
-   npm run migrate
-   ```
-5. Đợi migration xong
-6. **Manual Deploy** → **Deploy latest commit**
+Click **Create Web Service** → Đợi deploy xong
 
-### 3.4. Lấy URL
+### 3.4. Chạy Migration từ Local
+
+**Cách 1: Chạy từ máy local (Khuyến nghị)**
+
+```bash
+# Trong folder backend
+cd backend
+
+# Chạy migration với connection string
+npm run migrate:remote "postgresql://postgres:[PASSWORD]@db.xxx.supabase.co:5432/postgres"
+
+# Hoặc dùng environment variable
+DATABASE_URL="postgresql://postgres:[PASSWORD]@db.xxx.supabase.co:5432/postgres" npm run migrate:remote
+```
+
+**Cách 2: Thêm vào Build Command**
+
+Quay lại Render Settings:
+- Build Command: `npm install && npm run migrate || true`
+- `|| true` để không fail nếu tables đã tồn tại
+
+**Cách 3: Dùng Supabase SQL Editor**
+
+1. Vào Supabase Dashboard
+2. **SQL Editor** → **New query**
+3. Copy nội dung file `backend/db/schema.sql`
+4. Paste và **Run**
+
+### 3.5. Lấy URL
 Copy: `https://livestream-backend.onrender.com`
 
 ---
@@ -165,22 +185,30 @@ Truy cập: `https://livestream-frontend.onrender.com`
 
 ### ❌ Build failed: "npm run migrate"
 
-**Giải pháp:**
-1. Bỏ `&& npm run migrate` khỏi Build Command
-2. Deploy lại
-3. Vào Shell chạy `npm run migrate`
-4. Manual Deploy
-
-### ❌ Migration failed
-
-**Nếu lỗi "already exists":** Bình thường, bỏ qua.
-
-**Nếu lỗi khác:**
+**Giải pháp 1: Chạy migration từ local**
 ```bash
-# Trong Shell
-echo $DATABASE_URL  # Kiểm tra connection string
-npm run migrate     # Chạy lại
+cd backend
+DATABASE_URL="[Supabase connection string]" npm run migrate
 ```
+
+**Giải pháp 2: Dùng Supabase SQL Editor**
+1. Vào Supabase Dashboard
+2. SQL Editor → New query
+3. Copy nội dung `backend/db/schema.sql`
+4. Run
+
+**Giải pháp 3: Thêm `|| true` vào Build Command**
+```
+npm install && npm run migrate || true
+```
+
+### ❌ Migration failed: "already exists"
+
+**Bình thường!** Tables đã tồn tại. Bỏ qua lỗi này.
+
+### ❌ Cannot access Shell (Free tier)
+
+**Không sao!** Chạy migration từ local hoặc dùng Supabase SQL Editor (xem trên).
 
 ### ❌ Backend sleep sau 15 phút
 
@@ -197,7 +225,27 @@ Kiểm tra:
 
 ### ❌ CORS error
 
-Kiểm tra `CLIENT_URL` trong backend environment variables.
+**Nguyên nhân:** Backend không cho phép frontend origin.
+
+**Giải pháp:**
+
+1. **Kiểm tra CLIENT_URL:**
+   - Vào Backend service → Environment
+   - `CLIENT_URL` phải là: `https://livestream-frontend.onrender.com`
+   - Không có dấu `/` ở cuối
+
+2. **Nếu vẫn lỗi, set CLIENT_URL = *:**
+   ```
+   CLIENT_URL=*
+   ```
+   (Cho phép tất cả origins - chỉ dùng khi test)
+
+3. **Redeploy backend:**
+   - Manual Deploy → Deploy latest commit
+
+4. **Clear browser cache:**
+   - Ctrl + Shift + R (Windows)
+   - Cmd + Shift + R (Mac)
 
 ### ❌ RTMP không stream được
 
