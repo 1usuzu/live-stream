@@ -202,6 +202,44 @@ GET    /api/health               # Kiểm tra server status
 | **Bundle Size** | ~500KB (gzipped) |
 
 
+## Deployment
+
+### Deploy lên Server Free
+
+Hướng dẫn deploy **HOÀN TOÀN MIỄN PHÍ** lên Render.com + Supabase:
+
+**Quick Start (30 phút):**
+```bash
+# 1. Check readiness
+node scripts/deploy-check.js
+
+# 2. Follow guide
+# Đọc file QUICK_DEPLOY.md hoặc DEPLOY_GUIDE.md
+```
+
+**Files hướng dẫn:**
+- `QUICK_DEPLOY.md` - Deploy nhanh trong 30 phút
+- `DEPLOY_GUIDE.md` - Hướng dẫn chi tiết từng bước
+- `DEPLOY_CHECKLIST.md` - Checklist đầy đủ
+- `DEPLOY_FREE.md` - So sánh các platform free
+- `DEPLOY_RENDER_SIMPLE.md` - Hướng dẫn Render đơn giản
+
+**Sau khi deploy:**
+```bash
+# Test production
+node scripts/test-production.js https://your-backend.onrender.com
+```
+
+**Platform khuyến nghị:**
+- **Database**: Supabase (500MB free)
+- **Backend**: Render.com (free tier)
+- **Frontend**: Render.com (free tier)
+- **Redis**: Upstash (10K commands/day)
+- **RTMP**: Local + Ngrok (hoặc Railway/Fly.io)
+
+**Chi phí:** $0/tháng 🎉
+
+
 ## License
 
 This project is licensed under the MIT License.
