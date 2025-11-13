@@ -32,20 +32,24 @@ app.use(helmet({
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  process.env.CLIENT_URL,
-].filter(Boolean)
+  'http://localhost:5173',
+  'https://streami-kx3p.onrender.com'
+]
+
+// Add CLIENT_URL from env if exists
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL)
+}
 
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true)
 
-    // Check if origin is allowed
-    if (allowedOrigins.some(allowed => origin.includes(allowed.replace('https://', '').replace('http://', '')))) {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true)
     } else {
-      console.log('CORS blocked origin:', origin)
-      callback(null, true) // Allow anyway in production (can change to false for strict mode)
+      callback(new Error('Not allowed by CORS'))
     }
   },
   credentials: true,
