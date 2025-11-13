@@ -28,39 +28,6 @@
 - PostgreSQL >= 14
 - OBS Studio (để stream)
 
-### Cài đặt nhanh (5 phút)
-
-```bash
-# 1. Clone repository
-git clone https://github.com/yourusername/livestream-app.git
-cd livestream-app
-
-# 2. Setup Database
-createdb livestream_app
-
-# 3. Setup Backend
-cd backend
-npm install
-cp .env.example .env
-# Sửa DATABASE_URL trong .env
-npm run migrate
-npm run dev
-
-# 4. Setup Frontend (terminal mới)
-cd frontend
-npm install
-npm start
-
-# 5. Setup RTMP Server (terminal mới)
-cd rtmp-server
-npm install
-node server.js
-```
-
-### Truy cập
-- **Frontend:** http://localhost:3000
-- **Backend API:** http://localhost:3001
-- **RTMP Server:** http://localhost:8000
 
 ### Stream với OBS
 - **Server:** `rtmp://localhost:1935/live`
@@ -162,22 +129,7 @@ GET    /api/health               # Kiểm tra server status
    - Gửi tin nhắn trong chat box
    - Tương tác với streamer và viewers khác
 
-
-## Screenshots
-
-### Trang chủ
-![Home](https://via.placeholder.com/800x400?text=Home+Page)
-
-### Streamer Dashboard
-![Dashboard](https://via.placeholder.com/800x400?text=Streamer+Dashboard)
-
-### Viewer Page
-![Viewer](https://via.placeholder.com/800x400?text=Viewer+Page)
-
-### Chat Realtime
-![Chat](https://via.placeholder.com/800x400?text=Chat+System)
-
-
+  
 ## Security Features
 
 - ✅ **JWT Authentication** - Secure token-based auth
@@ -200,44 +152,6 @@ GET    /api/health               # Kiểm tra server status
 | **Database Queries** | <50ms average |
 | **API Response Time** | <200ms average |
 | **Bundle Size** | ~500KB (gzipped) |
-
-
-## Deployment
-
-### Deploy lên Server Free
-
-Hướng dẫn deploy **HOÀN TOÀN MIỄN PHÍ** lên Render.com + Supabase:
-
-**Quick Start (30 phút):**
-```bash
-# 1. Check readiness
-node scripts/deploy-check.js
-
-# 2. Follow guide
-# Đọc file QUICK_DEPLOY.md hoặc DEPLOY_GUIDE.md
-```
-
-**Files hướng dẫn:**
-- `QUICK_DEPLOY.md` - Deploy nhanh trong 30 phút
-- `DEPLOY_GUIDE.md` - Hướng dẫn chi tiết từng bước
-- `DEPLOY_CHECKLIST.md` - Checklist đầy đủ
-- `DEPLOY_FREE.md` - So sánh các platform free
-- `DEPLOY_RENDER_SIMPLE.md` - Hướng dẫn Render đơn giản
-
-**Sau khi deploy:**
-```bash
-# Test production
-node scripts/test-production.js https://your-backend.onrender.com
-```
-
-**Platform khuyến nghị:**
-- **Database**: Supabase (500MB free)
-- **Backend**: Render.com (free tier)
-- **Frontend**: Render.com (free tier)
-- **Redis**: Upstash (10K commands/day)
-- **RTMP**: Local + Ngrok (hoặc Railway/Fly.io)
-
-**Chi phí:** $0/tháng 🎉
 
 
 ## License
