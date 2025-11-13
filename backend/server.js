@@ -31,11 +31,8 @@ app.use(helmet({
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
-  'http://localhost:5173',
   'http://localhost:3001',
   process.env.CLIENT_URL,
-  'https://streami-kx3p.onrender.com',
-  'https://livestream-frontend-r-com.onrender.com'
 ].filter(Boolean)
 
 const corsOptions = {
@@ -59,9 +56,6 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-
-// Handle preflight requests
-app.options('*', cors(corsOptions))
 
 // Body Parser
 app.use(express.json({ limit: '10mb' }))
