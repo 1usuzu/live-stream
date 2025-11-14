@@ -21,6 +21,7 @@ const FlvPlayer = ({ streamKey, autoPlay = true }) => {
         setError(null);
 
         const video = videoRef.current;
+        // URL format: /live/{streamKey}.flv
         const flvUrl = `${FLV_BASE}/${streamKey}.flv`;
 
         if (flvjs.isSupported()) {
