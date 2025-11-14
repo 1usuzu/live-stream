@@ -109,6 +109,7 @@ app.use('/api/auth', require('./src/routes/auth'))
 app.use('/api/rooms', require('./src/routes/rooms'))
 app.use('/api/users', require('./src/routes/users'))
 app.use('/api/streams', require('./src/routes/streams'))
+app.use('/api/stream-proxy', require('./src/routes/streamProxy'))
 
 // 404 Handler
 app.use((req, res) => {

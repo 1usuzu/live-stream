@@ -54,8 +54,6 @@ services:
         value: https://livestream-backend.onrender.com/api
       - key: REACT_APP_SOCKET_URL
         value: https://livestream-backend.onrender.com
-      - key: REACT_APP_FLV_BASE_URL
-        value: http://13.210.237.197:8000
     routes:
       - type: rewrite
         source: /*

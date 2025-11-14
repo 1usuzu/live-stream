@@ -6,7 +6,10 @@ const FlvPlayer = ({ streamKey, autoPlay = true }) => {
     const flvPlayerRef = useRef(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const FLV_BASE = process.env.REACT_APP_FLV_BASE_URL || 'http://localhost:8000/live';
+    
+    // Dùng backend proxy thay vì direct RTMP
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+    const FLV_BASE = `${API_URL.replace('/api', '')}/api/stream-proxy/live`;
 
     useEffect(() => {
         if (!streamKey) {
@@ -70,7 +73,7 @@ const FlvPlayer = ({ streamKey, autoPlay = true }) => {
                 flvPlayerRef.current = null;
             }
         };
-    }, [streamKey, autoPlay]);
+    }, [streamKey, autoPlay, API_URL, FLV_BASE]);
 
     if (!streamKey) {
         return (
