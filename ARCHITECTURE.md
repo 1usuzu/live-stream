@@ -1,6 +1,6 @@
 # Architecture Overview
 
-## 🏗️ System Architecture
+## System Architecture
 
 ### Production Setup (Render + AWS EC2)
 
@@ -89,7 +89,7 @@
 └──────────────────────┘
 ```
 
-## 🔄 Data Flow
+## Data Flow
 
 ### 1. Authentication Flow
 
@@ -188,13 +188,13 @@ Video playback (độ trễ 2-3 giây)
 
 **Lý do dùng Backend Proxy:**
 
-- ✅ Fix Mixed Content (HTTPS frontend → HTTP RTMP)
-- ✅ Thêm authentication layer
-- ✅ Rate limiting cho video requests
-- ✅ Logging & monitoring
-- ✅ CORS handling
+- Fix Mixed Content (HTTPS frontend → HTTP RTMP)
+- Thêm authentication layer
+- Rate limiting cho video requests
+- Logging & monitoring
+- CORS handling
 
-## 🔐 Security Layers
+## Security Layers
 
 ### 1. Authentication
 
@@ -291,7 +291,7 @@ follows (
 )
 ```
 
-## 🔌 Socket.io Events
+## Socket.io Events
 
 ### Client → Server
 
@@ -315,7 +315,7 @@ follows (
 | `message-deleted` | `{ messageId }`                                | Tin nhắn bị xóa |
 | `chat-cleared`    | -                                              | Chat bị xóa     |
 
-## 🚀 Performance Optimizations
+## Performance Optimizations
 
 ### Frontend
 
@@ -339,7 +339,7 @@ follows (
 - Soft deletes for messages
 - Cleanup jobs for old data
 
-## 📈 Scalability Considerations
+## Scalability Considerations
 
 ### Horizontal Scaling
 
@@ -355,7 +355,7 @@ follows (
 - Caching strategy
 - CDN for static assets
 
-## 🔍 Monitoring & Logging
+## Monitoring & Logging
 
 ### Winston Logger
 
@@ -380,7 +380,7 @@ follows (
 - Error rates
 - Stream proxy bandwidth usage
 
-## 🛠️ Development Tools
+## Development Tools
 
 ### Backend
 
@@ -411,7 +411,7 @@ follows (
 - PostgreSQL (database)
 - Redis (cache)
 
-## 📦 Deployment Architecture
+## Deployment Architecture
 
 ### Current Setup (v1.0)
 
@@ -462,7 +462,7 @@ follows (
     └─────────────────┘
 ```
 
-## 🎯 Technical Stack Summary
+## Technical Stack Summary
 
 | Layer          | Technology                    | Purpose               |
 | -------------- | ----------------------------- | --------------------- |
@@ -499,15 +499,15 @@ follows (
 
 ### Architecture Principles
 
-✅ **Scalability** - Stateless design, Redis for shared state  
-✅ **Real-time Performance** - Socket.io for instant updates  
-✅ **Security** - JWT, rate limiting, input validation  
-✅ **Maintainability** - Clean code structure, logging  
-✅ **Extensibility** - Modular design, easy to add features  
-✅ **Low Latency** - FLV streaming (2-3s delay)  
-✅ **Mobile-First** - Responsive design for all devices
+**Scalability** - Stateless design, Redis for shared state  
+**Real-time Performance** - Socket.io for instant updates  
+**Security** - JWT, rate limiting, input validation  
+**Maintainability** - Clean code structure, logging  
+**Extensibility** - Modular design, easy to add features  
+**Low Latency** - FLV streaming (2-3s delay)  
+**Mobile-First** - Responsive design for all devices
 
-## 🔧 Environment Variables
+## Environment Variables
 
 ### Backend (.env)
 
@@ -546,7 +546,7 @@ VITE_RTMP_SERVER=rtmp://13.210.237.197/live
 VITE_RTMP_PORT=1935
 ```
 
-## 🐛 Troubleshooting Guide
+## Troubleshooting Guide
 
 ### Common Issues
 
@@ -568,7 +568,7 @@ VITE_RTMP_PORT=1935
 
 **Giải pháp:**
 
-- ✅ Đã fix bằng Backend Proxy
+- Đã fix bằng Backend Proxy
 - Frontend request qua `/api/stream-proxy` (HTTPS)
 - Backend fetch từ RTMP server (HTTP)
 
@@ -653,23 +653,23 @@ VITE_RTMP_PORT=1935
 - Use Redis pub/sub for scaling
 - Add slow mode
 
-## ✅ Implemented Features (v1.0)
+## Implemented Features (v1.0)
 
-- ✅ JWT Authentication với tiếng Việt error messages
-- ✅ Stream qua Backend Proxy (fix Mixed Content HTTPS→HTTP)
-- ✅ FLV streaming với độ trễ thấp (2-3s)
-- ✅ Real-time chat với Socket.io
-- ✅ Stream status checking (ĐANG TRỰC TIẾP / CHỜ STREAM)
-- ✅ Mobile responsive UI (375px, 640px, 768px breakpoints)
-- ✅ Dark/Light theme
-- ✅ Rate limiting tăng cường (300 req/15min)
-- ✅ Copy to clipboard cho RTMP URL & Stream Key
-- ✅ End stream functionality
-- ✅ Toast notifications
-- ✅ SPA routing với \_redirects (fix 404 on refresh)
-- ✅ Dynamic stream keys (UUID per user)
+- JWT Authentication với tiếng Việt error messages
+- Stream qua Backend Proxy (fix Mixed Content HTTPS→HTTP)
+- FLV streaming với độ trễ thấp (2-3s)
+- Real-time chat với Socket.io
+- Stream status checking (ĐANG TRỰC TIẾP / CHỜ STREAM)
+- Mobile responsive UI (375px, 640px, 768px breakpoints)
+- Dark/Light theme
+- Rate limiting tăng cường (300 req/15min)
+- Copy to clipboard cho RTMP URL & Stream Key
+- End stream functionality
+- Toast notifications
+- SPA routing với \_redirects (fix 404 on refresh)
+- Dynamic stream keys (UUID per user)
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Unit Tests (Future)
 
@@ -717,7 +717,7 @@ describe("Auth Controller", () => {
 - [ ] End stream
 - [ ] Logout
 
-## 📚 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 
@@ -954,7 +954,7 @@ socket.on("stream-ended", (data) => {
 });
 ```
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### v1.1 (Next Sprint)
 
@@ -998,7 +998,7 @@ socket.on("stream-ended", (data) => {
 - [ ] Advanced analytics (heatmaps, retention)
 - [ ] White-label solution
 
-## 💡 Best Practices
+## Best Practices
 
 ### Code Style
 
@@ -1062,7 +1062,7 @@ test: adding tests
 chore: maintenance
 ```
 
-## 🤝 Contributing Guide
+## Contributing Guide
 
 ### Setup Development Environment
 
@@ -1139,7 +1139,7 @@ npm run dev
 - [ ] Documentation updated
 - [ ] Tests added (if applicable)
 
-## 📞 Support & Contact
+## Support & Contact
 
 ### Issues
 
