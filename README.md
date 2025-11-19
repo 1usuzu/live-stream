@@ -60,32 +60,9 @@
    - Gửi tin nhắn trong chat box
    - Tương tác với streamer và viewers khác
 
-## Performance
-
-| Metric | Value |
-|--------|-------|
-| **Concurrent Users** | 100-200 (free tier) |
-| **Video Latency** | 2-3 seconds (FLV) |
-| **Chat Latency** | <100ms (Socket.io) |
-| **Database Queries** | <50ms average |
-| **API Response Time** | <200ms average |
-| **Bundle Size** | ~500KB (gzipped) |
-
-
 ## License
 
 This project is licensed under the MIT License.
-
-
-## Acknowledgments
-
-- [Socket.io](https://socket.io/) - Real-time communication
-- [FLV.js](https://github.com/bilibili/flv.js) - Video streaming
-- [Node Media Server](https://github.com/illuspas/Node-Media-Server) - RTMP server
-- [React](https://react.dev/) - UI framework
-- [Express](https://expressjs.com/) - Backend framework
-- [PostgreSQL](https://www.postgresql.org/) - Database
-
 
 ## Show your support
 
