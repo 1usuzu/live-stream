@@ -1,21 +1,31 @@
-// src/components/ChatBox.jsx
 import { useRef, useEffect, useState } from 'react';
 import { useChat } from '../hooks/useChat';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 const ChatBox = ({ roomId, isStreamer = false }) => {
   const { messages, sendMessage, deleteMessage, clearChat, connected, viewerCount } = useChat(roomId, isStreamer);
   const [input, setInput] = useState('');
   const logRef = useRef(null);
+  
+  // Lấy hàm trackEvent từ Matomo
+  const { trackEvent } = useMatomo();
 
   useEffect(() => {
     logRef.current?.scrollTo(0, logRef.current.scrollHeight);
   }, [messages]);
 
-
-
   const handleSend = () => {
     if (input.trim()) {
       sendMessage(input.trim());
+      
+      // --- MATOMO TRACKING ---
+      trackEvent({
+        category: 'Engagement',    // Danh mục: Tương tác
+        action: 'Chat Message',    // Hành động: Chat
+        name: `Room: ${roomId}`,   // Nhãn: Tại phòng nào
+      });
+      // -----------------------
+
       setInput('');
     }
   };

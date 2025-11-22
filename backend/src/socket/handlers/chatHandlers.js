@@ -50,21 +50,21 @@ module.exports = (socket, io, rooms) => {
         return callback({ error: 'Message too long (max 500 characters)' });
       }
 
-      // Rate limiting (5 messages per 10 seconds)
-      const rateLimitKey = `chat_rate:${socket.userId}:${roomId}`;
-      const messageCount = await redis.incr(rateLimitKey);
+      // Rate limiting (5 messages per 10 seconds) - TEMPORARILY DISABLED
+      // const rateLimitKey = `chat_rate:${socket.userId}:${roomId}`;
+      // const messageCount = await redis.incr(rateLimitKey);
 
-      if (messageCount === 1) {
-        await redis.expire(rateLimitKey, 10);
-      }
+      // if (messageCount === 1) {
+      //   await redis.expire(rateLimitKey, 10);
+      // }
 
-      if (messageCount > 5) {
-        const ttl = await redis.ttl(rateLimitKey);
-        return callback({
-          error: `Slow down! You can send another message in ${ttl} seconds`,
-          retryAfter: ttl
-        });
-      }
+      // if (messageCount > 5) {
+      //   const ttl = await redis.ttl(rateLimitKey);
+      //   return callback({
+      //     error: `Slow down! You can send another message in ${ttl} seconds`,
+      //     retryAfter: ttl
+      //   });
+      // }
 
       // Sanitize and filter message
       let cleanMessage = sanitizeMessage(message.trim());
@@ -195,17 +195,17 @@ module.exports = (socket, io, rooms) => {
         return callback({ error: 'Not in a room' });
       }
 
-      // Rate limit reactions (10 per minute)
-      const rateLimitKey = `reaction_rate:${socket.userId}:${socket.roomId}`;
-      const count = await redis.incr(rateLimitKey);
+      // Rate limit reactions (10 per minute) - TEMPORARILY DISABLED
+      // const rateLimitKey = `reaction_rate:${socket.userId}:${socket.roomId}`;
+      // const count = await redis.incr(rateLimitKey);
 
-      if (count === 1) {
-        await redis.expire(rateLimitKey, 60);
-      }
+      // if (count === 1) {
+      //   await redis.expire(rateLimitKey, 60);
+      // }
 
-      if (count > 10) {
-        return callback({ error: 'Too many reactions' });
-      }
+      // if (count > 10) {
+      //   return callback({ error: 'Too many reactions' });
+      // }
 
       // Broadcast reaction
       io.to(socket.roomId).emit('reaction', {

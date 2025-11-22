@@ -1,10 +1,12 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { pushInstruction } = useMatomo(); // Lấy hàm pushInstruction để set User ID
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -12,9 +14,16 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
     if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+      
+      // Nếu load lại trang mà đã login, set lại User ID cho Matomo
+      if (parsedUser.email) {
+        pushInstruction('setUserId', parsedUser.email);
+      }
     }
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async ({ email, password }) => {
@@ -29,6 +38,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     setUser(data.user);
+
+    // --- MATOMO TRACKING ---
+    // Gắn User ID (dùng email hoặc ID) để theo dõi hành trình cụ thể
+    pushInstruction('setUserId', data.user.email);
+    // -----------------------
+
     return data.user;
   };
 
@@ -45,6 +60,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     setUser(data.user);
+    
+    // --- MATOMO TRACKING ---
+    pushInstruction('setUserId', data.user.email);
+    // -----------------------
+
     return data;
   };
 
@@ -52,6 +72,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
+
+    // --- MATOMO TRACKING ---
+    // Xóa User ID khi logout để phiên tiếp theo tính là khách (Guest)
+    pushInstruction('resetUserId');
+    // Track một pageview mới để reset trạng thái phiên
+    pushInstruction('trackPageView');
+    // -----------------------
   };
 
   const updateProfile = async (profileData) => {

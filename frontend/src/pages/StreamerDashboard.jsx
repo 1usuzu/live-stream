@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ChatBox from '../components/ChatBox';
 import { useAuth } from '../hooks/useAuth';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 const StreamerDashboard = () => {
   const { user } = useAuth();
@@ -13,6 +14,9 @@ const StreamerDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  
+  // Lấy hàm trackEvent
+  const { trackEvent } = useMatomo();
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -82,9 +86,25 @@ const StreamerDashboard = () => {
 
       setRoomInfo(data.room);
       setRoomId(data.room.room_id);
+
+      // --- MATOMO TRACKING ---
+      trackEvent({
+        category: 'Stream',
+        action: 'Create Room Success',
+        name: category, // Ghi nhận loại stream họ tạo
+      });
+      // -----------------------
+
       alert('Phòng stream đã được tạo! Bắt đầu stream từ OBS.');
     } catch (err) {
       setError(err.message);
+      
+      // Có thể track lỗi nếu muốn
+      trackEvent({
+        category: 'Error',
+        action: 'Create Room Failed',
+        name: err.message
+      });
     } finally {
       setLoading(false);
     }
@@ -113,6 +133,14 @@ const StreamerDashboard = () => {
         throw new Error(data.error || 'Failed to end stream');
       }
 
+      // --- MATOMO TRACKING ---
+      trackEvent({
+        category: 'Stream',
+        action: 'End Stream',
+        name: roomInfo?.title
+      });
+      // -----------------------
+
       setRoomInfo(null);
       setRoomId('');
       setTitle('');
@@ -125,8 +153,6 @@ const StreamerDashboard = () => {
       setLoading(false);
     }
   };
-
-
 
   return (
     <div className="viewer-layout">

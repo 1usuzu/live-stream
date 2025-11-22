@@ -8,11 +8,11 @@ const { rateLimitByIP, checkStreamerIP } = require('../middleware/ipWhitelist');
 router.get('/:roomId/stats', streamController.getStreamStats);
 router.get('/:roomId/messages', streamController.getStreamMessages);
 
-// Stream token generation (protected, rate limited)
+// Stream token generation (protected, rate limited - TEMPORARILY DISABLED)
 router.get(
     '/:roomId/token',
     authMiddleware,
-    rateLimitByIP(10, 60000), // 10 requests per minute
+    // rateLimitByIP(10, 60000), // 10 requests per minute
     streamController.getStreamToken
 );
 
